@@ -1,0 +1,23 @@
+{% include "htmltop.html" %}
+
+{% for message in get_flashed_messages() %}
+{{ message }}
+{% endfor %}
+<div class="container2">
+<div class="account">
+    <h1>Log In</h1>
+    <hr>
+    <form action="{{url_for('main.login')}}" method = "POST" class="login">
+        {{ form.hidden_tag() }}
+        {{ form.username(placeholder=form.username.label.text, class_= "form-input") }}
+        {{ form.password(placeholder=form.password.label.text, class_="form-input") }}
+        <div>{{ form.remember_me.label }} {{ form.remember_me() }}</div>
+        {{ form.submit(class_="button", id="login")}}
+        <div>
+            No Account? <a href="{{url_for('main.register')}}">Sign Up!</a>
+        </div>
+    </form>
+</div>
+</div>
+
+{% include "htmlbottom.html" %}

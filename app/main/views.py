@@ -1,4 +1,4 @@
- from flask import session, render_template, redirect, url_for, flash, request
+from flask import session, render_template, redirect, url_for, flash, request
 
 from . import main
 from .. import db
@@ -57,6 +57,75 @@ def register():
 
     return render_template("register.html", form = form, title = "Create Account")
 
+@main.route("/addfunstuff", methods = ["GET", "POST"])
+@login_required
+def addfunstuff():
+    form = FunForm()
+
+    if(form.validate_on_submit()):
+        medium = form.medium.data
+        title = form.title.data
+        genre = form.genre.data
+        addFunThing(medium, title, genre)
+        return redirect(url_for("main.myfunstuff"))
+    
+    return render_template("addfunthing.html", form = form, title = "Add Fun Thing")
+
+@main.route("/addmusic", methods = ["GET", "POST"])
+@login_required
+def addmusic():
+    form = Playlist()
+
+    if (form.validate_on_submit()):
+        title = form.title.data
+        artist = form.artist.data
+        genre = form.genre.data
+        addMusic(title, artist, genre)
+        return redirect(url_for("main.mymusic"))
+
+    return render_template("addmusic.html", form = form, title = "Add Music")
+
+@main.route("/myfunstuff")
+@login_required
+def my_fun_stuff():
+
+    user_fun = Entertainment.query.filter_by(user_id = current_user_id).all()
+
+    return render_template("entertainment.html", fun = fun, title = "My Fun Stuff")
+
+@main.route("/mymusic")
+@login_required
+def my_music():
+
+    playlist = Playlist.query.filter_by(user_id = current_user_id).all()
+
+    return render_template("playlist.html", playlist= playlist, title = "My Music Playlist" )
+
+@main.route("/deletefun/<int:id>", methods = ["POST"])
+@login_required
+def deletefunthing(id):
+
+    funthing = Entertainment.query.filter_by(user_id=current_user.id, id = id).first()
+
+    db.session.delete(funthing)
+    db.session.commit()
+    flash("You have deleted fun thing.")
+
+    return redirect(url_for("main.myfunstuff"))
+
+@main.route("/deletemusic/<int:id>", methods = ["POST"])
+@login_required
+def deletemusic(id):
+
+    music = Playlist.query.filter_by(user_id = current_user.id, id = id).first()
+
+    db.session.delete(music)
+    db.session.commit()
+    flash("You deleted song from your playlist")
+
+    return redirect(url_for("main.mymusic"))
+
+
 def createUser(username, password, email):
     u = User.query.filter_by(username=username).first()
     if(u == None):
@@ -67,7 +136,8 @@ def createUser(username, password, email):
     else:
         return False
 
-def addEnt(medium, title, genre):
+
+def addFunThing(medium, title, genre):
     ent = Entertainment(medium = medium, title = title, genre = genre)
     db.session.add(ent)
     db.session.commit()

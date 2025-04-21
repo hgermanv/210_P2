@@ -1,0 +1,23 @@
+{% include "htmltop.html" %}
+
+<div class="table">
+    <table>
+        <tr>
+            <th>Medium</th>
+            <th>Title</th>
+            <th>Genre</th>
+        </tr>
+
+        {% for f in fun %}
+        <tr>
+            <td>{{f.medium}}</td>
+            <td>{{f.title}}</td>
+            <td>{{f.genre}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+
+{% include "htmlbottom.html" %}

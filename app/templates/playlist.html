@@ -1,0 +1,22 @@
+{% include "htmltop.html" %}
+
+<div class="table">
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Genre</th>
+        </tr>
+
+        {% for p in playlist %}
+        <tr>
+            <td>{{p.title}}</td>
+            <td>{{p.artist}}</td>
+            <td>{{p.genre}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% include "htmlbottom.html" %}

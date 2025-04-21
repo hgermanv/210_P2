@@ -25,22 +25,27 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-class Entertainment(db.model):
+class Entertainment(db.Model):
     __tablename__ = "entertainments"
     id = db.Column(db.Integer, primary_key=True)
     medium = db.Column(db.String(64), index=True)
     title = db.Column(db.String(64), index=True)
     genre = db.Column(db.String(64), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), index = True)
+
+
 
     def __repr__(self):
         return self.medium + " " + self.title
 
-class Playlist(db.model):
+class Playlist(db.Model):
     __tablename__ = "playlist"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=True)
     artist = db.Column(db.String(64), index=True)
     genre = db.Column(db.String(64), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), index = True)
+
 
     def __repr__(self):
         return self.title + " " + self.artist

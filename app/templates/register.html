@@ -1,0 +1,20 @@
+{% include "htmltop.html" %}
+
+<div class="container2">
+    <div class="account">
+        <h2>Create Account</h2>
+        <form action="{{url_for('main.register')}}" method = "POST" class="login">
+            {{ form.hidden_tag() }}
+            {{ form.username(placeholder=form.username.label.text, class_= "form-input") }}
+            {{ form.email(placeholder=form.email.label.text, class_= "form-input")}}
+            {{ form.password(placeholder=form.password.label.text, class_="form-input") }}
+            {{ form.confirm(placeholder=form.confirm.label.text, class_="form-input") }}
+            {{ form.submit(class_ = "button", id="signUp")}}
+            <div>
+                Already have an account? <a href="{{url_for('main.login')}}">Log in</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% include "htmlbottom.html" %}
