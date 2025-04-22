@@ -1,11 +1,22 @@
 {% include "htmltop.html" %}
 
-<div class="table">
+{% for message in get_flashed_messages() %}
+    {{ message }}
+{% endfor %}
+
+<div class="maincontainer">
+    <div class="header-bar">
+        <h1>My Favorite Time Wasters</h1>
+        <form action="{{url_for('main.addfunstuff')}}">
+            <button class="button add">Add Time Waster</button>
+        </form>
+    </div>
     <table>
         <tr>
             <th>Medium</th>
             <th>Title</th>
             <th>Genre</th>
+            <th></th>
         </tr>
 
         {% for f in fun %}
@@ -13,6 +24,11 @@
             <td>{{f.medium}}</td>
             <td>{{f.title}}</td>
             <td>{{f.genre}}</td>
+            <td>
+                <form action="{{url_for('main.deletefunthing', id = f.id)}}" method="POST">
+                    <button class="button cancel">Remove</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </table>

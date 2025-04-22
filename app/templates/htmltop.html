@@ -11,8 +11,8 @@
         <ul class = "navbar-items">
             {% if current_user.is_authenticated %}
             <li class = "navbar-item"><a href="{{ url_for('main.index')}}">Home</a></li>
-            <li class = "navbar-item"><a href="{{ url_for('main.myfunstuff')}}">My Fun Stuff</a></li>
-            <li class = "navbar-item"><a href="{{ url_for('main.mymusic')}}">My Music</a></li>
+            <li class = "navbar-item"><a href="{{ url_for('main.my_fun_stuff')}}">My Fun Stuff</a></li>
+            <li class = "navbar-item"><a href="{{ url_for('main.my_music')}}">My Music</a></li>
             <li class = "navbar-item"><a href="{{ url_for('main.logout')}}">Logout</a></li>
             {% else %}
             <li class = "navbar-item"><a href="{{ url_for('main.login')}}">Login</a></li>

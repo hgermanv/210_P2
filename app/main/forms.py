@@ -21,7 +21,8 @@ class FunForm(FlaskForm):
     genre = StringField("Genre: ", validators = [DataRequired()])
     submit = SubmitField("Add Time Waster")
 
-class Playlist(FlaskForm):
+class PlaylistForm(FlaskForm):
     title = StringField("Title: ", validators = [DataRequired()])
     artist = StringField("Artist: ", validators = [DataRequired()])
     genre = StringField("Genre: ", validators = [DataRequired()])
+    submit = SubmitField("Add Music")

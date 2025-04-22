@@ -39,7 +39,7 @@ class Entertainment(db.Model):
         return self.medium + " " + self.title
 
 class Playlist(db.Model):
-    __tablename__ = "playlist"
+    __tablename__ = "playlists"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=True)
     artist = db.Column(db.String(64), index=True)
@@ -48,9 +48,8 @@ class Playlist(db.Model):
 
 
     def __repr__(self):
-        return self.title + " " + self.artist
+        return self.title + " " + self.artist + " " + self.genre
 
-# need one more table
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

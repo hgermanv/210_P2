@@ -53,7 +53,7 @@ def register():
             flash("Registered user " + username)
         else:
             flash("User already exists with username " + username)
-        return redirect(Url_for('main.index'))
+        return redirect(url_for('main.index'))
 
     return render_template("register.html", form = form, title = "Create Account")
 
@@ -66,22 +66,26 @@ def addfunstuff():
         medium = form.medium.data
         title = form.title.data
         genre = form.genre.data
-        addFunThing(medium, title, genre)
-        return redirect(url_for("main.myfunstuff"))
+        user_id = current_user.id
+        addFunThing(medium, title, genre, user_id)
+        return redirect(url_for("main.my_fun_stuff"))
     
     return render_template("addfunthing.html", form = form, title = "Add Fun Thing")
 
 @main.route("/addmusic", methods = ["GET", "POST"])
 @login_required
 def addmusic():
-    form = Playlist()
+    form = PlaylistForm()
 
     if (form.validate_on_submit()):
         title = form.title.data
         artist = form.artist.data
         genre = form.genre.data
-        addMusic(title, artist, genre)
-        return redirect(url_for("main.mymusic"))
+        user_id = current_user.id
+
+        addMusic(title, artist, genre, user_id)
+        flash("Music Added to Playlist")
+        return redirect(url_for("main.my_music"))
 
     return render_template("addmusic.html", form = form, title = "Add Music")
 
@@ -89,17 +93,18 @@ def addmusic():
 @login_required
 def my_fun_stuff():
 
-    user_fun = Entertainment.query.filter_by(user_id = current_user_id).all()
+    fun = Entertainment.query.filter_by(user_id = current_user.id).all()
 
     return render_template("entertainment.html", fun = fun, title = "My Fun Stuff")
 
-@main.route("/mymusic")
+@main.route("/mymusic", methods = ["POST", "GET"]) 
+# added post get to see something
 @login_required
 def my_music():
 
-    playlist = Playlist.query.filter_by(user_id = current_user_id).all()
+    playlist = Playlist.query.filter_by(user_id = current_user.id).all()
 
-    return render_template("playlist.html", playlist= playlist, title = "My Music Playlist" )
+    return render_template("playlist.html", playlist = playlist, title = "My Music Playlist" )
 
 @main.route("/deletefun/<int:id>", methods = ["POST"])
 @login_required
@@ -111,19 +116,19 @@ def deletefunthing(id):
     db.session.commit()
     flash("You have deleted fun thing.")
 
-    return redirect(url_for("main.myfunstuff"))
+    return redirect(url_for("main.my_fun_stuff"))
 
-@main.route("/deletemusic/<int:id>", methods = ["POST"])
+@main.route("/deletemusic/<int:id>", methods = ["GET", "POST"])
 @login_required
 def deletemusic(id):
 
-    music = Playlist.query.filter_by(user_id = current_user.id, id = id).first()
+    music = Playlist.query.filter_by(id = id).first()
 
     db.session.delete(music)
     db.session.commit()
     flash("You deleted song from your playlist")
 
-    return redirect(url_for("main.mymusic"))
+    return redirect(url_for("main.my_music"))
 
 
 def createUser(username, password, email):
@@ -137,12 +142,12 @@ def createUser(username, password, email):
         return False
 
 
-def addFunThing(medium, title, genre):
-    ent = Entertainment(medium = medium, title = title, genre = genre)
+def addFunThing(medium, title, genre, user_id):
+    ent = Entertainment(medium = medium, title = title, genre = genre, user_id = user_id)
     db.session.add(ent)
     db.session.commit()
 
-def addMusic(title, artist, genre):
-    music = Playlist(title = title, artist = artist, genre = genre)
+def addMusic(title, artist, genre, user_id):
+    music = Playlist(title = title, artist = artist, genre = genre, user_id = user_id)
     db.session.add(music)
     db.session.commit()

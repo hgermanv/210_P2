@@ -1,14 +1,14 @@
 {% include "htmltop.html" %}
 
 <div class= "container">
-    <div class="form">
+    <div class="addform">
         <h1>Add Fun Thing!</h1>
-        <form action="{{url_for('main.addfunstuff')}}" method="POST">
+        <form action="{{url_for('main.addfunstuff')}}" method="POST" class="formitem">
             {{ form.hidden_tag() }}
             {{ form.medium(placeholder=form.medium.label.text, class_="form-input") }}
             {{ form.title(placeholder=form.title.label.text, class_="form-input") }}
             {{ form.genre(placeholder=form.genre.label.text, class_="form-input") }}
-            {{ form.submit(class_="button")}}
+            {{ form.submit(class_="button add")}}
         </form>
     </div>
 </div>

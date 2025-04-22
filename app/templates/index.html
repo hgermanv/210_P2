@@ -1,4 +1,12 @@
 {% include "htmltop.html" %}
+{% for message in get_flashed_messages() %}
+{{ message }}
+{% endfor %}
 
+<div class="home">
+    <h1>Welcome!</h1>
+    <h2>Keep track of your music and hobbies easily.</h2>
+    <p>This is your personal corner of the internet to keep track of everything you’re into — and everything you’re listening to! Whether you’re binge-reading Harry Potter, replaying FNAF, or hooked on Breaking Bad, HobbyTunes helps you keep it all in one place. Got a favorite song? Add it to your playlist — maybe something like Blinding Lights by The Weeknd or Bohemian Rhapsody by Queen. Your favorites, your vibe, all saved in one spot!</p>
+</div>
 
 {% include "htmlbottom.html" %}
